@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streaming - HD Arena Player</title>
+<script src="https://pl29064950.profitablecpmratenetwork.com/74/23/45/742345aa93ef3f6565e029a2f3758862.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- ==========================================================
+         🛠️ CONFIGURATION
+    =========================================================== -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8QEySFOObEgBOZlB-TfHcffieRQccks4",
+  authDomain: "ipllive-f8087.firebaseapp.com",
+  databaseURL: "https://ipllive-f8087-default-rtdb.firebaseio.com",
+  projectId: "ipllive-f8087",
+  storageBucket: "ipllive-f8087.firebasestorage.app",
+  messagingSenderId: "502360269677",
+  appId: "1:502360269677:web:32ad3f138e9f863bd0f064",
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let LOCAL_CONFIG = {
+            match_title: "IPL 2025: SYNCING...",
+            hero_image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEis_IPL_STADIUM.jpg",
+            adsterra_link: "#", 
+            timer_seconds: 10,
+            viewers_count: "0"
+        };
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0B0E14;
+            --primary: #00A3FF; 
+            --neon-green: #39FF14;
+            --live-red: #FF003C;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .arena-wrapper {
+            width: 100%;
+            max-width: 500px;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 100px rgba(0, 163, 255, 0.1);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            width: 100%;
+            height: 480px; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* প্লে বাটন ডিজাইন */
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 163, 255, 0.3);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        .play-overlay::after {
+            content: '';
+            width: 0; height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 25px solid #fff;
+            margin-left: 8px;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(0, 163, 255, 0.7); }
+            70% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 20px rgba(0, 163, 255, 0); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(0, 163, 255, 0); }
+        }
+
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 20%, var(--bg) 95%);
+            z-index: 2;
+        }
+
+        .live-indicator {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 6px 15px;
+            border-radius: 50px;
+            border: 1px solid var(--live-red);
+            z-index: 10;
+        }
+
+        .red-dot {
+            height: 10px; width: 10px;
+            background: var(--live-red);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--live-red);
+            animation: ripple 1.5s infinite;
+        }
+
+        @keyframes ripple {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7); }
+            100% { box-shadow: 0 0 0 10px rgba(255, 0, 60, 0); }
+        }
+
+        .live-indicator span {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        /* CONTENT AREA */
+        .content {
+            padding: 0 25px 50px;
+            margin-top: -80px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 42px;
+            line-height: 1;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            font-size: 12px;
+            font-weight: 700;
+            color: #888;
+            background: var(--glass);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item span { color: var(--neon-green); }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .btn {
+            padding: 22px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-main { background: var(--primary); color: #fff; box-shadow: 0 15px 35px rgba(0, 163, 255, 0.3); }
+        .btn-sub { background: var(--glass); color: #fff; border: 1px solid var(--border); }
+
+        .redirect-status {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        #timer-count { color: var(--primary); font-weight: 900; }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            text-align: center;
+            font-size: 10px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .hero-section { height: 350px; }
+            h1 { font-size: 34px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="arena-wrapper">
+    <!-- ক্লিকেবল হিরো সেকশন -->
+    <a id="img-link" href="#" style="text-decoration: none; color: inherit;">
+        <div class="hero-section">
+            <div class="live-indicator">
+                <div class="red-dot"></div>
+                <span>LIVE NOW</span>
+            </div>
+            
+            <!-- প্লে বাটন আইকন -->
+            <div class="play-overlay"></div>
+
+            <img id="m-img" src="" alt="Live Arena">
+            <div class="overlay"></div>
+        </div>
+    </a>
+
+    <div class="content">
+        <h1 id="m-title">SYNCING SERVER...</h1>
+        
+        <div class="stats-row">
+            <div class="stat-item">QUALITY <span>4K HD</span></div>
+            <div class="stat-item">VIEWERS <span id="m-viewers">0</span></div>
+            <div class="stat-item">FPS <span>60 FPS</span></div>
+        </div>
+
+        <div class="btn-group">
+            <a id="link-1" href="#" class="btn btn-main">▶ START STREAMING</a>
+            <a id="link-2" href="#" class="btn btn-sub">SERVER 2 (LOW DATA)</a>
+            <a id="link-3" href="#" class="btn btn-sub">SERVER 3 (MULTI-CAM)</a>
+        </div>
+
+        <div class="redirect-status">
+            Syncing with Arena Server in <span id="timer-count">0</span>s...
+        </div>
+    </div>
+
+    <footer>Official Arena Streaming Partner • IPL 2025</footer>
+</div>
+
+<script>
+    // ১. ইলিমেন্ট সিলেক্টর
+    const titleEl = document.getElementById('m-title');
+    const imgEl = document.getElementById('m-img');
+    const viewerEl = document.getElementById('m-viewers');
+    const timerEl = document.getElementById('timer-count');
+    const imgLink = document.getElementById('img-link');
+    const btnLinks = [document.getElementById('link-1'), document.getElementById('link-2'), document.getElementById('link-3')];
+
+    let timerStarted = false;
+
+    // ২. ইন্টারফেস আপডেট
+    function renderUI() {
+        titleEl.innerText = LOCAL_CONFIG.match_title;
+        imgEl.src = LOCAL_CONFIG.hero_image;
+        viewerEl.innerText = LOCAL_CONFIG.viewers_count;
+        
+        // সব লিংকে অ্যাড লিংক সেট করা
+        imgLink.href = LOCAL_CONFIG.adsterra_link;
+        btnLinks.forEach(link => {
+            link.href = LOCAL_CONFIG.adsterra_link;
+        });
+    }
+
+    // ৩. টাইমার লজিক
+    function startRedirectTimer(seconds) {
+        if(timerStarted) return;
+        timerStarted = true;
+        let timeLeft = seconds;
+        
+        const countdown = setInterval(() => {
+            timerEl.innerText = timeLeft;
+            if(timeLeft <= 0) {
+                clearInterval(countdown);
+                window.location.href = LOCAL_CONFIG.adsterra_link;
+            }
+            timeLeft--;
+        }, 1000);
+    }
+
+    // ৪. ফায়ারবেস কানেকশন
+    const dbRef = database.ref('match_data');
+    dbRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if(data) {
+            LOCAL_CONFIG.match_title = data.title || LOCAL_CONFIG.match_title;
+            LOCAL_CONFIG.hero_image = data.image || LOCAL_CONFIG.hero_image;
+            LOCAL_CONFIG.adsterra_link = data.link || LOCAL_CONFIG.adsterra_link;
+            LOCAL_CONFIG.timer_seconds = data.timer || LOCAL_CONFIG.timer_seconds;
+            LOCAL_CONFIG.viewers_count = data.viewers || LOCAL_CONFIG.viewers_count;
+            
+            renderUI();
+            startRedirectTimer(parseInt(LOCAL_CONFIG.timer_seconds));
+        } else {
+            renderUI();
+            startRedirectTimer(LOCAL_CONFIG.timer_seconds);
+        }
+    });
+
+    // ৫. ব্যাক বাটন হাইজ্যাক
+    (function() {
+        window.history.pushState({page: 1}, "", "");
+        window.onpopstate = function() {
+            window.location.href = LOCAL_CONFIG.adsterra_link;
+        };
+    })();
+</script>
+<script src="https://pl29064963.profitablecpmratenetwork.com/3d/e8/02/3de8024191fc609cb4a3d99ac9fc839e.js"></script>
+
+</body>
+</html>
